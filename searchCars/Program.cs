@@ -11,7 +11,8 @@ namespace searchCars
     {
         static void Main(string[] args)
         {
-            string filePath = @"C:\Users\User\source\repos\searchCars\searchCars\carNumbers.txt";
+            string fileName = "carNumbers.txt";
+            string filePath = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName + "\\" + fileName;
             string[] lines = File.ReadAllLines(filePath, Encoding.UTF8);
 
             ListCarNumbers cars = initialzeCars();
@@ -25,7 +26,8 @@ namespace searchCars
                 {
                     Console.WriteLine("What do you want to do?");
                     Console.WriteLine("1. Search number.");
-                    Console.WriteLine("2. Exit");
+                    Console.WriteLine("2. Run test cases");
+                    Console.WriteLine("3. Exit");
                     string userChoice = Console.ReadLine();
 
                     switch (userChoice)
@@ -40,6 +42,11 @@ namespace searchCars
                             Console.Clear();
                             break;
                         case "2":
+                            startTests();
+                            Console.ReadLine();
+                            Console.Clear();
+                            break;
+                        case "3":
                             repeat = false;
                             break;
                     }
@@ -74,6 +81,48 @@ namespace searchCars
                 }
 
                 return carList;
+            }
+
+            void startTests()
+            {
+                bool testPassed = true;
+
+                // test case 1
+                string carNumber = "xxxxx";
+                int expectedCount = 0;
+                List<CarNumber> result = cars.findCarNumbers(carNumber);
+                
+                if (result.Count != expectedCount)
+                {
+                    testPassed = false;
+                }
+
+
+                // test case 2
+                carNumber = "s129mk154";
+                expectedCount = 1;
+                result = cars.findCarNumbers(carNumber);
+                if (result.Count != expectedCount)
+                {
+                    testPassed = false;
+                }
+
+
+                // test case 3
+                carNumber = "154";
+                expectedCount = 8;
+                result = cars.findCarNumbers(carNumber);
+                if (result.Count != expectedCount)
+                {
+                    testPassed = false;
+                }
+
+                if (testPassed) {
+                    Console.WriteLine("Tests passed");
+                } else
+                {
+                    Console.WriteLine("Tests failed");
+                }
             }
         }
     }
